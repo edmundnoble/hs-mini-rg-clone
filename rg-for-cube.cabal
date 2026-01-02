@@ -26,8 +26,6 @@ executable rg-for-cube
         filepath,
         directory-ospath-streaming,
         optparse-applicative,
-        regex-base,
-        regex-tdfa,
         text,
         bytestring,
         async,

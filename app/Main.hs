@@ -9,7 +9,6 @@ import Control.Monad
 import Data.Containers.ListUtils
 import Data.IORef
 import Data.Primitive.PrimVar
-import Data.Text (Text)
 import Data.Text qualified as StrictText
 import Data.Text.Lazy qualified as Text
 import Data.Text.Lazy.IO qualified as Text
@@ -20,9 +19,6 @@ import System.File.OsPath
 import System.IO (IOMode(..))
 import System.OsPath
 import System.OsString qualified as OsString
-import Text.Regex.Base
-import Text.Regex.TDFA ()
-import Text.Regex.TDFA.Text qualified as RegexTDFA
 import Torsor(scale)
 import UnliftIO.Async
 
@@ -41,15 +37,13 @@ main = do
             (long "par" <> help "Use parallelism")
         shouldPrint <- switch
             (long "print" <> help "Print each line")
-        regex <- argument str
-            (metavar "REGEX")
+        substr <- argument str
+            (metavar "SUBSTR")
         inputFiles <- some (argument (OsString.unsafeEncodeUtf <$> str)
             (metavar "FILEORDIR"))
-        return $ go par shouldPrint regex inputFiles
+        return $ go par shouldPrint substr inputFiles
 
-    go par shouldPrint regex inputFiles = do
-        compiledRegex :: RegexTDFA.Regex <-
-            makeRegexM (regex :: Text)
+    go par shouldPrint substr inputFiles = do
         filesVar :: PrimVar _ Int <- newPrimVar 0
         linesVar :: PrimVar _ Int <- newPrimVar 0
         matchesVar :: PrimVar _ Int <- newPrimVar 0
@@ -76,7 +70,7 @@ main = do
                                         mempty line
                                 add bytesVar wordLen
                                 add charsVar charLen
-                                when (match compiledRegex line) $ do
+                                when (Text.count substr line > 0) $ do
                                     when shouldPrint $
                                         Text.putStrLn line
                                     add matchesVar 1
