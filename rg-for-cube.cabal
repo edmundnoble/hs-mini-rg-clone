@@ -40,7 +40,6 @@ executable rg-for-cube
         unordered-containers,
         containers,
         hashable,
-        lens,
         unliftio
     hs-source-dirs:   app
     default-extensions:

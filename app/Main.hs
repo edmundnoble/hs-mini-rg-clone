@@ -5,7 +5,6 @@ import Prelude hiding (lines)
 
 import Chronos
 import Control.Exception
-import Control.Lens hiding (argument)
 import Control.Monad
 import Data.Containers.ListUtils
 import Data.IORef
@@ -34,7 +33,7 @@ import UnliftIO.Async
 -- directory-ospath-streaming, but it's not that interesting for performance
 -- compared to the regex part
 getDirectoryContentsRecursiveAbs fp = do
-    over (mapped . _1) (fp </>) <$> getDirectoryContentsRecursive fp
+    fmap (\(p, t) -> (fp </> p, t)) <$> getDirectoryContentsRecursive fp
 
 main :: IO ()
 main = do
