@@ -22,7 +22,7 @@ executable rg-for-cube
     -- other-modules:
     -- other-extensions:
     build-depends:
-        base ^>=4.20.1.0,
+        base >=4.20,
         filepath,
         directory-ospath-streaming,
         optparse-applicative,
@@ -37,9 +37,7 @@ executable rg-for-cube
         primitive,
         chronos,
         torsor,
-        unordered-containers,
         containers,
-        hashable,
         unliftio
     hs-source-dirs:   app
     default-extensions:
