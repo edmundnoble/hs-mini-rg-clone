@@ -102,6 +102,8 @@ main = do
         putStrLn $ "speed (MB/s): " <>
             show (fromIntegral statsBytes `div` asSeconds (scale 1000000 timeTaken))
 
+-- don't worry... this datatype doesn't exist anywhere in the compiled program
+-- :)
 data Lengths = Lengths { wordLen :: !Int, charLen :: Int }
 instance Semigroup Lengths where
     Lengths w c <> Lengths w' c' = Lengths (w + w') (c + c')
