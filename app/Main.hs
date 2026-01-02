@@ -67,8 +67,7 @@ main = do
             (if par then forConcurrently_ else forM_) allFiles $ \(filePath, fileType) -> do
                 -- excludes symlinks and dirs
                 when (fileType == File Regular) $ do
-                    relFilePath <- makeRelativeToCurrentDirectory filePath
-                    withFile relFilePath ReadMode $ \h -> do
+                    withFile filePath ReadMode $ \h -> do
                         handleIOError errorsRef filePath $ do
                             fileContents <- Text.hGetContents h
                             let fileLines = Text.lines fileContents
@@ -110,8 +109,8 @@ instance Semigroup Lengths where
 instance Monoid Lengths where
     mempty = Lengths 0 0
 
-handleIOError errorsRef hashedFilePath act = do
+handleIOError errorsRef filePath act = do
     try @IOException act >>= \case
         Left _ -> atomicModifyIORef' errorsRef $ \allErrors ->
-            (hashedFilePath : allErrors, ())
+            (filePath : allErrors, ())
         Right _ -> return ()
