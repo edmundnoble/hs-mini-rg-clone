@@ -8,9 +8,6 @@ import Control.Exception
 import Control.Monad
 import Data.Containers.ListUtils
 import Data.IORef
-import Data.HashMap.Strict(HashMap)
-import Data.HashMap.Strict qualified as HashMap
-import Data.Hashable
 import Data.Primitive.PrimVar
 import Data.Text (Text)
 import Data.Text qualified as StrictText
