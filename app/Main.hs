@@ -29,7 +29,6 @@ import Text.Regex.TDFA ()
 import Text.Regex.TDFA.Text qualified as RegexTDFA
 import Torsor(scale)
 import UnliftIO.Async
-import System.Directory.OsPath
 
 -- this can be done more efficiently using some of the internals of
 -- directory-ospath-streaming, but it's not that interesting for performance
